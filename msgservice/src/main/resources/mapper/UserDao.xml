@@ -1,0 +1,13 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.h.msgservice.dao.UserDao">
+
+
+    <select id="getFriend" resultType="java.lang.Object">
+        SELECT *
+        from user_friends
+        where uid = #{uid}
+          and friend_uid = #{friendUid}
+    </select>
+</mapper>

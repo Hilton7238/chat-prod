@@ -1,0 +1,45 @@
+server:
+  port: 7001
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: hilton
+    password: 123456
+    url: jdbc:mysql://localhost:3306/chat?characterEncoding=utf-8&serverTimezone=GMT
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+      timeout: 5
+      pool:
+        max-active: 5
+        max-wait: 10
+        max-idle: 5
+        min-idle: 0
+  application:
+    name: MSGSERVICE
+  logging:
+    config: classpath:log4j2.xml
+  redis:
+    jedis:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
+    port: 6379
+    host: 127.0.0.1
+    password: 123456
+    timeout: 100
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+eureka:
+  client: #将客户端注册到 eureka 服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:7000/eureka  #这个地址是 7000注册中心在 application.yml 中暴露出来额注册地址 （单机版）
+    fetch-registry: true
+  instance:
+    instance-id: msgservice7001 #自定义服务名称信息
+    prefer-ip-address: true  #显示访问路径的 ip 地址

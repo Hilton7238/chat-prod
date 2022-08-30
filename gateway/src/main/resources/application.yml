@@ -1,0 +1,32 @@
+server:
+  port: 7003
+eureka:
+  client: #将客户端注册到 eureka 服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:7000/eureka  #这个地址是 7000注册中心在 application.yml 中暴露出来额注册地址 （单机版）
+    fetch-registry: true
+  instance:
+    instance-id: gateway7003 #自定义服务名称信息
+    prefer-ip-address: true  #显示访问路径的 ip 地址
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      routes:
+        - id: gateway_userService
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/user/**
+        - id: gateway_authorize
+          uri: lb://AUTHORIZECENTER
+          predicates:
+            - Path=/authorizecenter/**
+            - Method=POST
+        - id: gateway_adminService
+          uri: lb://USERSERVICE
+          predicates:
+            - Path=/admin/**
+
+
+

@@ -1,0 +1,74 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.h.userservice.dao.UserDao">
+    <insert id="addFriend">
+        INSERT INTO user_friends(uid, friend_uid)
+            value (#{uid}, #{friendUid})
+    </insert>
+    <update id="updatePasswordByUid">
+        UPDATE USER
+        SET password = #{password}
+        WHERE uid = #{uid}
+    </update>
+    <update id="updateInf">
+        update user
+        <set>
+            <if test="name != ''">
+                name = #{name},
+            </if>
+            <if test="mail != ''">
+                mail = #{mail},
+            </if>
+            <if test="imgUrl != ''">
+                img_url = #{imgUrl}
+            </if>
+        </set>
+        where uid = #{uid}
+    </update>
+    <update id="updateMailByUid">
+        update from user
+        set mail = #{mail}
+        where uid = #{uid}
+    </update>
+    <delete id="deleteFriend">
+        DELETE
+        from user_friends
+        where uid = #{uid}
+          and friend_uid = #{friendUid}
+    </delete>
+    <delete id="deleteUser" parameterType="java.lang.String">
+        delete
+        from user
+        where uid = #{uid}
+    </delete>
+    <select id="getEmailByUid" resultType="java.lang.String">
+        SELECT mail
+        FROM user
+        WHERE uid = #{uid}
+    </select>
+    <select id="getFriends" resultType="com.h.common.bean.User">
+        SELECT u.uid, u.img_url, u.`name`
+        from user_friends as f
+                 join user as u on f.friend_uid = u.uid
+        where f.uid = #{uid}
+    </select>
+    <select id="getUser" resultType="com.h.common.bean.User">
+        SELECT img_url, name, uid, mail
+        from user
+        where uid = #{uid}
+    </select>
+    <select id="getUsers" resultType="com.h.common.bean.User">
+        SELECT img_url, uid, name
+        from user
+        where uid like '%${uid}%'
+    </select>
+    <select id="countColumns" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(uid) as count
+        from user
+    </select>
+    <select id="getAllUsers" resultType="com.h.common.bean.User">
+        select *
+        from user
+    </select>
+</mapper>

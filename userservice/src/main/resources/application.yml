@@ -1,0 +1,72 @@
+server:
+  port: 7004
+spring:
+  datasource:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      password: 123456
+      timeout: 5
+      pool:
+        max-active: 5
+        max-wait: 10
+        max-idle: 5
+        min-idle: 0
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.jdbc.Driver
+      username: hilton
+      password: 123456
+      url: jdbc:mysql://127.0.0.1:3306/chat?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false&serverTimezone=Asia/Shanghai
+      initial-size: 10
+      min-idle: 5
+      max-active: 20
+      # 配置获取连接等待超时的时间
+      max-wait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      time-between-eviction-runs-millis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      min-evictable-idle-time-millis: 300000
+  application:
+    name: USERSERVICE
+  mail:
+    host: smtp.qq.com
+    port: 587
+    protocol: smtp
+    username: 595384262@qq.com
+    password: mtxldzhscqicbfje
+    test-connection: false
+    default-encoding: utf-8
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 50MB
+  redis:
+    jedis:
+      pool:
+        max-active: 8
+        min-idle: 0
+        max-idle: 8
+    port: 6379
+    host: 127.0.0.1
+    password: 123456
+    timeout: 100
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  type-aliases-package: com.h.userservice.bean
+eureka:
+  client: #将客户端注册到 eureka 服务列表内
+    service-url:
+      defaultZone: http://127.0.0.1:7000/eureka  #这个地址是 7000注册中心在 application.yml 中暴露出来额注册地址 （单机版）
+    fetch-registry: true
+  instance:
+    instance-id: service7004 #自定义服务名称信息
+    prefer-ip-address: true  #显示访问路径的 ip 地址
+logging:
+  config: classpath:log4j2.xml
+feign:
+  hystrix:
+    enabled: true
